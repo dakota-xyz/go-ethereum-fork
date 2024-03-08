@@ -18,6 +18,7 @@ package types
 
 import (
 	"bytes"
+	"io"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -99,3 +100,15 @@ func (tx *DepositTx) encode(b *bytes.Buffer) error {
 func (tx *DepositTx) decode(input []byte) error {
 	return rlp.DecodeBytes(input, tx)
 }
+
+type depositTxWithNonce struct {
+	DepositTx
+	EffectiveNonce uint64
+}
+
+// EncodeRLP ensures that RLP encoding this transaction excludes the nonce. Otherwise, the tx Hash would change
+func (tx *depositTxWithNonce) EncodeRLP(w io.Writer) error {
+	return rlp.Encode(w, tx.DepositTx)
+}
+
+func (tx *depositTxWithNonce) effectiveNonce() *uint64 { return &tx.EffectiveNonce }

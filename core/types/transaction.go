@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"math/big"
 	"sync/atomic"
 	"time"
@@ -211,6 +212,7 @@ func (tx *Transaction) decodeTyped(b []byte) (TxData, error) {
 	case OptimismDepositTxType:
 		inner = new(DepositTx)
 	default:
+		slog.Info("(*Transaction).decodeTyped unsuporeted tx type", slog.Any("tx_type", b[0]))
 		return nil, ErrTxTypeNotSupported
 	}
 	err := inner.decode(b[1:])

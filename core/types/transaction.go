@@ -52,6 +52,14 @@ const (
 	BlobTxType       = 0x03
 
 	OptimismDepositTxType = 0x7E
+
+	ArbitrumDepositTxType         = 0x64
+	ArbitrumUnsignedTxType        = 0x65
+	ArbitrumContractTxType        = 0x66
+	ArbitrumRetryTxType           = 0x68
+	ArbitrumSubmitRetryableTxType = 0x69
+	ArbitrumInternalTxType        = 0x6A
+	ArbitrumLegacyTxType          = 0x78
 )
 
 // Transaction is an Ethereum transaction.
@@ -92,6 +100,8 @@ type TxData interface {
 
 	rawSignatureValues() (v, r, s *big.Int)
 	setSignatureValues(chainID, v, r, s *big.Int)
+
+	skipAccountChecks() bool
 
 	// effectiveGasPrice computes the gas price paid by the transaction, given
 	// the inclusion block baseFee.
@@ -211,6 +221,20 @@ func (tx *Transaction) decodeTyped(b []byte) (TxData, error) {
 		inner = new(BlobTx)
 	case OptimismDepositTxType:
 		inner = new(DepositTx)
+	case ArbitrumDepositTxType:
+		inner = new(ArbitrumDepositTx)
+	case ArbitrumInternalTxType:
+		inner = new(ArbitrumInternalTx)
+	case ArbitrumUnsignedTxType:
+		inner = new(ArbitrumUnsignedTx)
+	case ArbitrumContractTxType:
+		inner = new(ArbitrumContractTx)
+	case ArbitrumRetryTxType:
+		inner = new(ArbitrumRetryTx)
+	case ArbitrumSubmitRetryableTxType:
+		inner = new(ArbitrumSubmitRetryableTx)
+	case ArbitrumLegacyTxType:
+		inner = new(ArbitrumLegacyTxData)
 	default:
 		slog.Info("(*Transaction).decodeTyped unsuporeted tx type", slog.Any("tx_type", b[0]))
 		return nil, ErrTxTypeNotSupported

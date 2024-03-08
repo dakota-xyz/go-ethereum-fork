@@ -44,11 +44,12 @@ var (
 
 // Transaction types.
 const (
-	LegacyTxType     = 0x00
-	AccessListTxType = 0x01
-	DynamicFeeTxType = 0x02
-	BlobTxType       = 0x03
-	SetCodeTxType    = 0x04
+	LegacyTxType          = 0x00
+	AccessListTxType      = 0x01
+	DynamicFeeTxType      = 0x02
+	BlobTxType            = 0x03
+	SetCodeTxType         = 0x04
+	OptimismDepositTxType = 0x7E
 )
 
 // Transaction is an Ethereum transaction.
@@ -208,6 +209,8 @@ func (tx *Transaction) decodeTyped(b []byte) (TxData, error) {
 		inner = new(BlobTx)
 	case SetCodeTxType:
 		inner = new(SetCodeTx)
+	case OptimismDepositTxType:
+		inner = new(DepositTx)
 	default:
 		return nil, ErrTxTypeNotSupported
 	}

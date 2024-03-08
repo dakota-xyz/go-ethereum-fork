@@ -66,18 +66,19 @@ func (tx *DepositTx) copy() TxData {
 }
 
 // accessors for innerTx.
-func (tx *DepositTx) txType() byte           { return OptimismDepositTxType }
-func (tx *DepositTx) chainID() *big.Int      { return common.Big0 }
-func (tx *DepositTx) accessList() AccessList { return nil }
-func (tx *DepositTx) data() []byte           { return tx.Data }
-func (tx *DepositTx) gas() uint64            { return tx.Gas }
-func (tx *DepositTx) gasFeeCap() *big.Int    { return new(big.Int) }
-func (tx *DepositTx) gasTipCap() *big.Int    { return new(big.Int) }
-func (tx *DepositTx) gasPrice() *big.Int     { return new(big.Int) }
-func (tx *DepositTx) value() *big.Int        { return tx.Value }
-func (tx *DepositTx) nonce() uint64          { return 0 }
-func (tx *DepositTx) to() *common.Address    { return tx.To }
-func (tx *DepositTx) isSystemTx() bool       { return tx.IsSystemTransaction }
+func (tx *DepositTx) txType() byte            { return OptimismDepositTxType }
+func (tx *DepositTx) chainID() *big.Int       { return common.Big0 }
+func (tx *DepositTx) accessList() AccessList  { return nil }
+func (tx *DepositTx) data() []byte            { return tx.Data }
+func (tx *DepositTx) gas() uint64             { return tx.Gas }
+func (tx *DepositTx) gasFeeCap() *big.Int     { return new(big.Int) }
+func (tx *DepositTx) gasTipCap() *big.Int     { return new(big.Int) }
+func (tx *DepositTx) gasPrice() *big.Int      { return new(big.Int) }
+func (tx *DepositTx) value() *big.Int         { return tx.Value }
+func (tx *DepositTx) nonce() uint64           { return 0 }
+func (tx *DepositTx) to() *common.Address     { return tx.To }
+func (tx *DepositTx) isSystemTx() bool        { return tx.IsSystemTransaction }
+func (tx *DepositTx) skipAccountChecks() bool { return false }
 
 func (tx *DepositTx) effectiveGasPrice(dst *big.Int, baseFee *big.Int) *big.Int {
 	return dst.Set(new(big.Int))

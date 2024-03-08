@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"math/big"
 	"unsafe"
 
@@ -213,6 +214,7 @@ func (r *Receipt) decodeTyped(b []byte) error {
 		r.Type = b[0]
 		return r.setFromRLP(data)
 	default:
+		slog.Info("(*Receipt).decodeTyped. unsuporeted tx type", slog.Any("tx_type", b[0]))
 		return ErrTxTypeNotSupported
 	}
 }

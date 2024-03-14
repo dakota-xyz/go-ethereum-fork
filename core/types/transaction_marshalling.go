@@ -562,17 +562,23 @@ func (tx *Transaction) UnmarshalJSON(input []byte) error {
 				return err
 			}
 		}
-		if dec.EffectiveGasPrice == nil {
-			return errors.New("missing required field 'EffectiveGasPrice' in transaction")
+
+		// INFO(Ricardo): This used to error on nil fields, but the code was changed not to because
+		// we don't care about these types of transactions
+		var effectiveGasPrice uint64
+		var l1BlockNumber uint64
+		if dec.EffectiveGasPrice != nil {
+			effectiveGasPrice = uint64(*dec.EffectiveGasPrice)
 		}
-		if dec.L1BlockNumber == nil {
-			return errors.New("missing required field 'L1BlockNumber' in transaction")
+		if dec.L1BlockNumber != nil {
+			l1BlockNumber = uint64(*dec.L1BlockNumber)
 		}
+
 		inner = &ArbitrumLegacyTxData{
 			LegacyTx:          itx,
 			HashOverride:      dec.Hash,
-			EffectiveGasPrice: uint64(*dec.EffectiveGasPrice),
-			L1BlockNumber:     uint64(*dec.L1BlockNumber),
+			EffectiveGasPrice: effectiveGasPrice,
+			L1BlockNumber:     l1BlockNumber,
 			Sender:            dec.From,
 		}
 

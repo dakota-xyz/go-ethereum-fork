@@ -251,7 +251,7 @@ type londonSigner struct{ eip2930Signer }
 // - EIP-2930 access list transactions,
 // - EIP-155 replay protected transactions, and
 // - legacy Homestead transactions.
-// Dakota: And is also accepts Optimistic and Arbitrum transactions
+// Dakota: And is also accepts Optimism and Arbitrum transactions
 func NewLondonSigner(chainId *big.Int) Signer {
 	return NewArbitrumSigner(londonSigner{eip2930Signer{NewEIP155Signer(chainId)}})
 }

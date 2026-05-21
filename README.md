@@ -1,5 +1,10 @@
 ## Go Ethereum
 
+> [!WARNING]
+> **Deprecated: scheduled for deletion**
+>
+> This repository is a dependency of the Dakota v1 monorepo only. It will be archived and deleted once Dakota v1 is fully sunsetted. Do not start new work here.
+
 Golang execution layer implementation of the Ethereum protocol.
 
 [![API Reference](
